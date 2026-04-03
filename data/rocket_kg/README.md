@@ -116,6 +116,187 @@ pipe.run(
     out_dir="clustering/ccscm_ccsproc",
 )
 ```
+# GraphCRAE_ROCKET — Exploratory Data Analysis
+
+## Overview
+
+**GraphCRAE_ROCKET** is a comprehensively scored biomedical knowledge graph that serves as the core relational backbone of the ROCKET system. It contains **5,962,901 edges** across **197,690 unique nodes**, spanning **11 node types** and **38 relation types**, with every edge annotated by a causal score derived from multi-source biological evidence. Unlike the final cleaned subsets, this file retains the full node type coverage — including anatomy, phenotype, biological process, pathway, and biomarker nodes — making it the richest representation of the ROCKET knowledge graph prior to domain-specific filtering.
+
+---
+
+## Dataset Statistics
+
+| Property | Value |
+|---|---|
+| Total edges | 5,962,901 |
+| Unique nodes | 197,690 |
+| Node types | 11 |
+| Relation types | 38 |
+| Score column | `causal_score` |
+| Score range | 0.186 – 0.961 |
+| Score mean | 0.641 |
+| Score median | 0.622 |
+| File size | 811 MB |
+| Columns | 13 |
+
+---
+
+## Node Types
+
+| Node Type | Unique Nodes | Edges as Source |
+|---|---|---|
+| Gene/Protein | 31,482 | 3,039,636 |
+| Risk Gene | 27,286 | 808,679 |
+| Drug | 10,759 | 1,506,493 |
+| Disease | 41,433 | 280,509 |
+| Phenotype | 23,380 | 116,749 |
+| Biological Process | 28,642 | 64,306 |
+| Molecular Function | 11,169 | 26,216 |
+| Cellular Component | 4,176 | 6,008 |
+| Pathway | 2,516 | 6,662 |
+| Anatomy | 14,033 | 14,052 |
+| Biomarker | 2,814 | 93,591 |
+
+---
+
+## Causal Score Distribution
+
+| Range | Count | % |
+|---|---|---|
+| < 0.25 | 4,119 | 0.1% |
+| 0.25 – 0.50 | 1,583,419 | 26.6% |
+| 0.50 – 0.75 | 2,409,541 | 40.4% |
+| 0.75 – 0.90 | 1,392,583 | 23.4% |
+| > 0.90 | 573,239 | 9.6% |
+
+The bulk of edges fall in the moderate-to-high confidence range (0.5–0.9), with 9.6% classified as high confidence (score > 0.90), predominantly from `drug_drug` and `protein_protein` interactions.
+
+---
+
+## Score by Node Type
+
+| x_type | Mean Score | Median |
+|---|---|---|
+| Drug | 0.867 | 0.887 |
+| Disease | 0.775 | 0.781 |
+| Biomarker | 0.754 | 0.749 |
+| Phenotype | 0.721 | 0.713 |
+| Biological Process | 0.707 | 0.728 |
+| Anatomy | 0.700 | 0.700 |
+| Cellular Component | 0.646 | 0.636 |
+| Molecular Function | 0.612 | 0.598 |
+| Pathway | 0.588 | 0.596 |
+| Risk Gene | 0.583 | 0.590 |
+| Gene/Protein | 0.525 | 0.508 |
+
+---
+
+## Score by Relation Type (Top 10 and Bottom 5)
+
+| Relation | Mean Score | Count |
+|---|---|---|
+| drug_drug | 0.883 | 1,336,314 |
+| drug_phenotype | 0.808 | 63,335 |
+| disease_biomarker | 0.788 | 12,851 |
+| disease_phenotype | 0.782 | 162,960 |
+| biomarker_biomarker | 0.778 | 30,157 |
+| disease_disease | 0.766 | 71,321 |
+| protein_biomarker | 0.759 | 28,277 |
+| disease_drug | 0.759 | 7,402 |
+| disease_protein | 0.756 | 25,975 |
+| biomarker_disease | 0.753 | 28,281 |
+| ... | ... | ... |
+| protein_pathway | 0.474 | 38,519 |
+| protein_anatomy | 0.463 | 1,536,745 |
+| protein_bioprocess | 0.441 | 133,385 |
+| protein_cellcomp | 0.427 | 82,239 |
+| protein_molfunc | 0.419 | 56,888 |
+
+---
+
+## Top Connected Nodes
+
+### By Total Degree
+
+| Node | Type | Degree |
+|---|---|---|
+| Multi-Cellular Organism (UBERON:468) | Anatomy | 17,367 |
+| Small Intestine (UBERON:2108) | Anatomy | 16,819 |
+| Testis (UBERON:473) | Anatomy | 16,735 |
+| Fallopian Tube (UBERON:3889) | Anatomy | 16,731 |
+| Prostate Gland (UBERON:2367) | Anatomy | 16,619 |
+| UBC — Ubiquitin C (NCBI:7316) | Gene/Protein | 4,721 |
+| TNF (NCBI:7124) | Gene/Protein | 2,653 |
+| TP53 (NCBI:7157) | Gene/Protein | 2,651 |
+| IL6 (NCBI:3569) | Gene/Protein | 2,270 |
+
+---
+
+## Data Sources
+
+| Source | Edge Count |
+|---|---|
+| NCBI | 2,239,810 |
+| DrugBank | 1,455,900 |
+| UBERON | 1,550,777 |
+| OpenTargets | 753,248 |
+| EpigraphDB | 506,928 |
+| BEFREE | 383,137 |
+| GO | 343,817 |
+| HPO | 320,478 |
+| MONDO | 145,663 |
+| CAUSALdb2 | 106,024 |
+
+---
+
+## Data Quality Notes
+
+| Check | Result |
+|---|---|
+| Null values | 0 |
+| Duplicate edges | 0 |
+| Self-loops | 0 |
+| Score out of [0,1] | 0 |
+| Non-standard IDs present | Yes |
+| Obsolete nodes present | Yes |
+
+**Non-standard ID prefixes** found in this file (pre-cleaning): `prot-a-`, `ukb-a/b/d-`, `ubm-a-`, `met-a/c-`, `CHEMBL`, `EFO:`, `OBA:`. These are retained in this file as it represents the intermediate scored graph before domain filtering.
+
+**Obsolete node flagged**: `MONDO:0020671` ("Obsolete Susceptibility to Ischemic Stroke") appears with degree 2,219 — should be excluded from downstream inference tasks.
+
+---
+
+## Role in the ROCKET Digital Twin System
+
+GraphCRAE_ROCKET is the primary knowledge layer that powers the ROCKET patient digital twin framework. In this system, each patient is represented as a subgraph extracted from GraphCRAE_ROCKET based on their clinical profile — diagnosed diseases, prescribed drugs, observed phenotypes, and measured biomarkers. The causal score on each edge encodes the strength of biological evidence supporting that relation, enabling the system to distinguish high-confidence causal links from weak associations during patient-level graph construction.
+
+**In the digital twin pipeline, GraphCRAE_ROCKET serves three roles:**
+
+1. **Patient graph construction** — Given a patient's EMR (diagnoses, medications, labs), the system queries GraphCRAE_ROCKET to retrieve all directly connected entities and their causal relationships, forming a personalized subgraph that reflects the patient's biological context.
+
+2. **Risk-weighted traversal** — Random Walk with Restart (RWR) and Graph Neural Network (GNN) models traverse the patient subgraph using `causal_score` as edge weights, propagating disease risk scores across the graph to surface candidate future diagnoses ranked by biological plausibility.
+
+3. **Feature enrichment** — Node-level features (topological centrality, pathway membership, ontology annotations) derived from GraphCRAE_ROCKET are used to initialise GNN node embeddings, allowing the model to leverage the full biological context of each entity type.
+
+---
+
+## Role in GraphRAG (Graph-Retrieval Augmented Generation)
+
+In the ROCKET GraphRAG pipeline, GraphCRAE_ROCKET functions as the structured knowledge retrieval layer that grounds large language model (LLM) reasoning in validated biomedical evidence.
+
+**The two-stage GraphRAG pipeline operates as follows:**
+
+**Stage 1 — KG Neighbourhood Retrieval (GPT-4o-mini):**
+For each patient, the system extracts a multi-hop neighbourhood from GraphCRAE_ROCKET centred on the patient's known diseases, drugs, and biomarkers. This neighbourhood — comprising risk genes, causal SNPs, drug targets, phenotype links, and disease comorbidities — is structured into a risk briefing that summarises the most relevant biological context. Only edges above a causal score threshold are included, ensuring the briefing reflects high-confidence knowledge.
+
+**Stage 2 — LLM-Augmented Prediction (GPT-4o):**
+The patient's EMR and the KG-derived risk briefing are jointly provided to GPT-4o, which performs chain-of-thought reasoning over both clinical observations and graph-structured biological evidence to generate a ranked list of predicted future diseases and recommended drugs. The causal score of each retrieved edge informs the confidence weighting of the evidence presented to the model.
+
+This architecture allows GraphCRAE_ROCKET to act as a dynamic, patient-specific knowledge retriever — bridging structured graph reasoning and generative language modelling — resulting in disease predictions that are both clinically grounded and biologically interpretable.
+
+---
+
+*Generated: 2026-04-03 | ROCKET Project | Integrated Knowledge Graphs*
 
 ---
 
