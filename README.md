@@ -11,51 +11,6 @@ ROCKET provides:
 
 ---
 
-## Directory Structure
-
-```
-ROCKET/
-├── data/
-│   ├── rocket_kg/       # KG triples, embeddings, clusters, attention weights
-│   ├── mimic_iii/       # MIMIC-III download instructions & processing notes
-│   └── mimic_iv/        # MIMIC-IV download instructions & processing notes
-├── src/
-│   ├── kg_construction/ # Multi-source KG building pipeline
-│   │   ├── build_kg.py           # GPT-3.5/4 triple generation
-│   │   ├── build_embeddings.py   # OpenAI ada-002 embeddings + merge
-│   │   ├── run_clustering.py     # Agglomerative clustering (τ=0.15)
-│   │   └── attention_weights.py  # Task-specific attention initialisation
-│   ├── rocket_score/    # ROCKET Score computation (S1–S5)
-│   │   └── score.py
-│   ├── causal_discovery/# Ensemble causal discovery
-│   │   └── ensemble.py          # NOTEARS + GOLEM + PC + LiNGAM
-│   ├── models/
-│   │   ├── cadi.py               # CADI architecture
-│   │   ├── cat.py                # CAT architecture
-│   │   └── baselines/
-│   │       ├── bat.py            # BAT
-│   │       ├── gnns.py           # GAT, GIN
-│   │       └── ehr_baselines.py  # RNN, Transformer, RETAIN, MLP
-│   ├── agent/           # ROCKET Agent
-│   │   └── rocket_agent.py
-│   └── evaluation/      # Evaluation metrics + Evaluator
-│       ├── metrics.py
-│       └── evaluate.py
-├── configs/
-│   └── default.yaml     # Training & experiment configuration
-├── notebooks/           # Reproducibility notebooks
-├── figures/             # Paper figures placeholder
-├── tests/               # pytest test suite
-│   ├── test_models.py
-│   ├── test_rocket_score.py
-│   ├── test_causal_discovery.py
-│   └── test_evaluation.py
-├── requirements.txt
-└── README.md
-```
-
----
-
 ## Quick Start
 
 ### 1. Install dependencies
@@ -201,6 +156,8 @@ Both MIMIC-III and MIMIC-IV require PhysioNet credentialed access.
 
 See `data/mimic_iii/README.md` and `data/mimic_iv/README.md` for
 detailed download and preprocessing instructions.
+
+
 
 ---
 
