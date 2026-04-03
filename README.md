@@ -1,7 +1,5 @@
-# ROCKET-KG
-
-**Reproducible, Organised Clinical Knowledge-Graph Evaluation and Testing**
-
+![Image](https://github.com/user-attachments/assets/17fe1a1d-ea02-4fed-bcf7-5d2d099b0553)
+# ROCKET-KG 
 ROCKET provides:
 - Clean, tested implementations of **CADI** and **CAT** causal GNN models
 - Baseline models: **BAT, GAT, GIN, RNN, Transformer, RETAIN, MLP**
