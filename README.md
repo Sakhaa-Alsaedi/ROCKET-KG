@@ -159,7 +159,32 @@ Both MIMIC-III and MIMIC-IV require PhysioNet credentialed access.
 See `data/mimic_iii/README.md` and `data/mimic_iv/README.md` for
 detailed download and preprocessing instructions.
 
+## Knowledge Graph (ROCKET-KG)
 
+The ROCKET knowledge graph and its curated subsets are publicly available via Zenodo:
+
+- Zenodo: https://zenodo.org/records/19401685  
+- DOI: 10.5281/zenodo.19401685  
+
+### Download ROCKET-KG
+```bash
+wget https://zenodo.org/records/19401685/files/ROCKET-KG.zip -O data/rocket_kg.zip
+unzip data/rocket_kg.zip -d data/rocket_kg
+```
+
+## Citation
+
+If you use ROCKET-KG, please cite:
+
+```bibtex
+@dataset{rocketkg_2026,
+  author       = {Alsaedi, Sakhaa et al.},
+  title        = {ROCKET-KG: Risk-Oriented Causal Biomedical Knowledge Graph},
+  year         = {2026},
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.19401685}
+}
+```
 
 ---
 
