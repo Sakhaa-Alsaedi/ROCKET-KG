@@ -1,1 +1,95 @@
+# ROCKET — Default Training Configuration
+# Override any key in a model-specific config file.
 
+# ───────────────────────────────────────────────────────────────
+# Paths
+# ───────────────────────────────────────────────────────────────
+paths:
+  graphs_dir:      "data/rocket_kg/graphs"
+  clustering_dir:  "data/rocket_kg/clustering"
+  exp_data_dir:    "data/rocket_kg/exp_data"
+  results_dir:     "results"
+  logs_dir:        "logs"
+
+# ───────────────────────────────────────────────────────────────
+# Dataset
+# ───────────────────────────────────────────────────────────────
+dataset:
+  name:       "mimic3"    # mimic3 | mimic4
+  task:       "mortality" # mortality | readmission | drugrec | lenofstay
+  threshold:  0.15        # clustering threshold
+  train_ratio: 0.8
+  val_ratio:   0.1
+  # test_ratio is 1 - train - val
+
+# ───────────────────────────────────────────────────────────────
+# Model
+# ───────────────────────────────────────────────────────────────
+model:
+  name:          "CADI"   # BAT | CADI | CAT | GAT | GIN | RNN | Transformer | RETAIN
+  embedding_dim: 128
+  hidden_dim:    128
+  layers:        2
+  dropout:       0.5
+  decay_rate:    0.03
+  patient_mode:  "joint"  # joint | graph | node
+  use_alpha:     true
+  use_beta:      true
+  use_edge_attn: true
+  freeze_emb:    false
+
+# ───────────────────────────────────────────────────────────────
+# Training
+# ───────────────────────────────────────────────────────────────
+training:
+  epochs:        100
+  batch_size:    128
+  lr:            1.6e-4
+  weight_decay:  1.0e-5
+  patience:      15       # early stopping patience
+  device:        "cuda"   # cuda | cpu
+  seed:          42
+
+# ───────────────────────────────────────────────────────────────
+# CADI-specific
+# ───────────────────────────────────────────────────────────────
+cadi:
+  node_mask_rate:  0.15
+  edge_drop_rate:  0.15
+  visit_mask_rate: 0.10
+
+# ───────────────────────────────────────────────────────────────
+# CAT-specific
+# ───────────────────────────────────────────────────────────────
+cat:
+  importance_momentum: 0.9
+  update_frequency:    3    # update causal importance every K epochs
+
+# ───────────────────────────────────────────────────────────────
+# KG Construction
+# ───────────────────────────────────────────────────────────────
+kg_construction:
+  openai_model:   "gpt-3.5-turbo"
+  embed_model:    "text-embedding-ada-002"
+  n_triples:      100
+  embed_workers:  20
+
+# ───────────────────────────────────────────────────────────────
+# ROCKET Score
+# ───────────────────────────────────────────────────────────────
+rocket_score:
+  weights:
+    S1: 0.2
+    S2: 0.2
+    S3: 0.2
+    S4: 0.2
+    S5: 0.2
+
+# ───────────────────────────────────────────────────────────────
+# Causal Discovery
+# ───────────────────────────────────────────────────────────────
+causal_discovery:
+  methods:         ["notears", "golem"]  # pc and lingam require extra packages
+  threshold:       0.5
+  notears_lambda:  0.1
+  golem_lambda1:   0.02
